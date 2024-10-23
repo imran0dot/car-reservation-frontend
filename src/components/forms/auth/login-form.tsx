@@ -34,7 +34,7 @@ export default function LoginForm() {
   }
 
   return (
-    <Card className="w-[350px]">
+    <Card className="w-full">
       <CardHeader>
         <CardTitle>Login</CardTitle>
         <CardDescription>Enter your credentials to access your account</CardDescription>
@@ -76,7 +76,7 @@ export default function LoginForm() {
           </Button>
 
             <div>
-              Don't you have account? please <Link to="/login" className='text-blue-600'>Register!</Link>
+              Don't you have account? please <Link to="/registration" className='text-blue-600'>Register!</Link>
             </div>
 
           </div>

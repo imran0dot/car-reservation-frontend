@@ -48,7 +48,7 @@ export default function RegistrationForm() {
   }
 
   return (
-    <Card className="w-[400px]">
+    <Card className="w-full">
       <CardHeader>
         <CardTitle>Register</CardTitle>
         <CardDescription>Create a new account</CardDescription>
