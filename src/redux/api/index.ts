@@ -8,7 +8,7 @@ const baseQuery = fetchBaseQuery({
 })
 
 export const baseApi = createApi({
-    reducerPath: 'pokemonApi',
+    reducerPath: 'baseApi',
     baseQuery: baseQuery,
     endpoints: () => ({})
     });

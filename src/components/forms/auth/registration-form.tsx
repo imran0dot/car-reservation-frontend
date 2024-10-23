@@ -1,6 +1,5 @@
 'use client'
 
-import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
@@ -9,6 +8,8 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Alert, AlertDescription } from "@/components/ui/alert"
+import { useRegisterMutation } from '@/redux/features/auth/auth.api'
+import { Link } from 'react-router-dom'
 
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters" }),
@@ -23,9 +24,7 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>
 
 export default function RegistrationForm() {
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [submitError, setSubmitError] = useState<string | null>(null)
-  const [submitSuccess, setSubmitSuccess] = useState(false)
+  const [registerUser, { isLoading, isError }] = useRegisterMutation();
 
   const {
     register,
@@ -37,21 +36,14 @@ export default function RegistrationForm() {
   })
 
   const onSubmit = async (data: FormData) => {
-    setIsSubmitting(true)
-    setSubmitError(null)
-    setSubmitSuccess(false)
-
+    console.log(data);
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000))
-      console.log('Form submitted:', data)
-      setSubmitSuccess(true)
-      // Handle successful registration here
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const registerResponse = await registerUser(data);
+      console.log(registerResponse);
+      // Handle successful registration (e.g., redirect or show a success message)
     } catch (error) {
-      setSubmitError('An error occurred during registration. Please try again.')
-    } finally {
-      setIsSubmitting(false)
+      console.error('Registration failed:', error);
+      // Handle error (optional: show an error message)
     }
   }
 
@@ -110,23 +102,25 @@ export default function RegistrationForm() {
           </div>
         </CardContent>
         <CardFooter>
-          <Button 
-            type="submit" 
-            className="w-full" 
-            disabled={!isValid || isSubmitting}
-          >
-            {isSubmitting ? 'Registering...' : 'Register'}
-          </Button>
+          <div className='space-y-6 w-full'>
+            <Button
+              type="submit"
+              className="w-full"
+              disabled={!isValid || isLoading}
+            >
+              {isLoading ? 'Registering...' : 'Register'}
+            </Button>
+
+            <div>
+              Already account exist? please <Link to="/login" className='text-blue-600'>login!</Link>
+            </div>
+
+          </div>
         </CardFooter>
       </form>
-      {submitError && (
-        <Alert variant="destructive" className="mt-4">
-          <AlertDescription>{submitError}</AlertDescription>
-        </Alert>
-      )}
-      {submitSuccess && (
-        <Alert className="mt-4">
-          <AlertDescription>Registration successful! Welcome aboard.</AlertDescription>
+      {isError && (
+        <Alert variant="destructive" className="mt-4 text-red-600">
+          <AlertDescription>Something went wrong please try again later</AlertDescription>
         </Alert>
       )}
     </Card>

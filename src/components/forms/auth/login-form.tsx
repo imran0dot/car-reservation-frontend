@@ -1,6 +1,3 @@
-'use client'
-
-import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
@@ -9,6 +6,8 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Alert, AlertDescription } from "@/components/ui/alert"
+import { useLoginMutation } from '@/redux/features/auth/auth.api'
+import { Link } from 'react-router-dom'
 
 const formSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
@@ -18,8 +17,7 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>
 
 export default function LoginForm() {
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [submitError, setSubmitError] = useState<string | null>(null)
+  const [loginHandler, { isLoading, isError }] = useLoginMutation();
 
   const {
     register,
@@ -31,20 +29,8 @@ export default function LoginForm() {
   })
 
   const onSubmit = async (data: FormData) => {
-    setIsSubmitting(true)
-    setSubmitError(null)
-
-    try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000))
-      console.log('Form submitted:', data)
-      // Handle successful login here
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (error) {
-      setSubmitError('An error occurred while logging in. Please try again.')
-    } finally {
-      setIsSubmitting(false)
-    }
+    const loginReseponce = await loginHandler(data);
+    console.log(loginReseponce);
   }
 
   return (
@@ -80,18 +66,25 @@ export default function LoginForm() {
           </div>
         </CardContent>
         <CardFooter>
-          <Button 
-            type="submit" 
-            className="w-full" 
-            disabled={!isValid || isSubmitting}
+          <div className='space-y-6 w-full'>
+          <Button
+            type="submit"
+            className="w-full"
+            disabled={!isValid || isLoading}
           >
-            {isSubmitting ? 'Logging in...' : 'Log in'}
+            {isLoading ? 'Logging in...' : 'Log in'}
           </Button>
+
+            <div>
+              Don't you have account? please <Link to="/login" className='text-blue-600'>Register!</Link>
+            </div>
+
+          </div>
         </CardFooter>
       </form>
-      {submitError && (
-        <Alert variant="destructive" className="mt-4">
-          <AlertDescription>{submitError}</AlertDescription>
+      {isError && (
+        <Alert variant="destructive" className="mt-4 text-red-600">
+          <AlertDescription>Something went wrong please try again later</AlertDescription>
         </Alert>
       )}
     </Card>
