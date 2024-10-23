@@ -38,4 +38,5 @@ export const {
     useLoginMutation,
     useRegisterMutation
 } = authApi;
-export default authApi;
+
+export default authApi.reducer;
