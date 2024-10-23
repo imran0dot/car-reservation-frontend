@@ -4,6 +4,7 @@ import whyChoseUsImg from "../../src/assets/pexels-trace-707046.jpg"
 import Container from '@/components/widget/Container';
 import Title from '@/components/widget/Title';
 import ChooseUsSection from '@/components/sections/ChooseUsSection';
+import ContactInformation from '@/components/sections/Contact';
 
 const Home: React.FC = () => {
     return (
@@ -18,7 +19,7 @@ const Home: React.FC = () => {
                 <Container>
                     <Title
                         title="Your needs are recognized right away."
-                        subtitle="Why Choose Us"
+                        batch="Why Choose Us"
                     />
                     <div className='grid md:grid-cols-2 justify-center items-center gap-10'>
                         <img className='' src={whyChoseUsImg} alt='why-choose-us' />
@@ -27,6 +28,12 @@ const Home: React.FC = () => {
                     </div>
                 </Container>
             </section>
+
+
+            
+
+            {/* Contact us section  */}
+            <ContactInformation />
         </>
     );
 };

@@ -5,6 +5,24 @@ import { NavigationMenu, NavigationMenuList, NavigationMenuLink } from "@/compon
 import { FaBars, FaMountain } from "react-icons/fa";
 import Container from "../widget/Container";
 
+
+interface INavigationMenuList {
+  name: string;
+  path: string
+}
+
+const navigationMenuList: INavigationMenuList[] = [
+  {
+    name: 'home',
+    path: '/'
+  },
+  {
+    name: 'about-us',
+    path: '/about'
+  }
+]
+
+
 export default function Component() {
   return (
     <header className="border-b border-b-slate-200">
@@ -53,46 +71,17 @@ export default function Component() {
               </Link>
               <NavigationMenu className="hidden lg:flex">
                 <NavigationMenuList>
-                  <NavigationMenuLink asChild>
-                    <Link
-                      to="#"
-                      className="group inline-flex h-9 w-max items-center justify-center  bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-gray-100/50 data-[state=open]:bg-gray-100/50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50 dark:data-[active]:bg-gray-800/50 dark:data-[state=open]:bg-gray-800/50"
-                    >
-                      Home
-                    </Link>
-                  </NavigationMenuLink>
-                  <NavigationMenuLink asChild>
-                    <Link
-                      to="#"
-                      className="group inline-flex h-9 w-max items-center justify-center  bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-gray-100/50 data-[state=open]:bg-gray-100/50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50 dark:data-[active]:bg-gray-800/50 dark:data-[state=open]:bg-gray-800/50"
-                    >
-                      About
-                    </Link>
-                  </NavigationMenuLink>
-                  <NavigationMenuLink asChild>
-                    <Link
-                      to="#"
-                      className="group inline-flex h-9 w-max items-center justify-center  bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-gray-100/50 data-[state=open]:bg-gray-100/50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50 dark:data-[active]:bg-gray-800/50 dark:data-[state=open]:bg-gray-800/50"
-                    >
-                      Services
-                    </Link>
-                  </NavigationMenuLink>
-                  <NavigationMenuLink asChild>
-                    <Link
-                      to="#"
-                      className="group inline-flex h-9 w-max items-center justify-center  bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-gray-100/50 data-[state=open]:bg-gray-100/50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50 dark:data-[active]:bg-gray-800/50 dark:data-[state=open]:bg-gray-800/50"
-                    >
-                      Portfolio
-                    </Link>
-                  </NavigationMenuLink>
-                  <NavigationMenuLink asChild>
-                    <Link
-                      to="#"
-                      className="group inline-flex h-9 w-max items-center justify-center  bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-gray-100/50 data-[state=open]:bg-gray-100/50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50 dark:data-[active]:bg-gray-800/50 dark:data-[state=open]:bg-gray-800/50"
-                    >
-                      Contact
-                    </Link>
-                  </NavigationMenuLink>
+                  {
+                    navigationMenuList.map((item, index) =>
+                      <NavigationMenuLink asChild key={index}>
+                        <Link
+                          to={item.path}
+                          className="group inline-flex h-9 w-max items-center justify-center  bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-gray-100/50 data-[state=open]:bg-gray-100/50 capitalize"
+                        >
+                          {item.name}
+                        </Link>
+                      </NavigationMenuLink>)
+                  }
                 </NavigationMenuList>
               </NavigationMenu>
             </div>
