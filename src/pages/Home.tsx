@@ -5,6 +5,7 @@ import Container from '@/components/widget/Container';
 import Title from '@/components/widget/Title';
 import ChooseUsSection from '@/components/sections/ChooseUsSection';
 import ContactInformation from '@/components/sections/Contact';
+import CarList from '@/components/sections/CarList';
 
 const Home: React.FC = () => {
     return (
@@ -14,8 +15,20 @@ const Home: React.FC = () => {
                 className='h-96 bg-cover bg-no-repeat'>
             </div>
 
+
+            {/* Popular Rental Cars */}
+            <section className='my-20'>
+                <Container>
+                    <Title
+                        title="Our Popular Rental cars"
+                        batch="Rental Cars"
+                    />
+                    <CarList />
+                </Container>
+            </section>
+
             {/* why chose us section */}
-            <section>
+            <section className='my-20'>
                 <Container>
                     <Title
                         title="Your needs are recognized right away."
@@ -30,7 +43,7 @@ const Home: React.FC = () => {
             </section>
 
 
-            
+
 
             {/* Contact us section  */}
             <ContactInformation />
