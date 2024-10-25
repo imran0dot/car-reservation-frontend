@@ -5,10 +5,13 @@ import Heading from '@/components/shared/Heading';
 const Login: React.FC = () => {
     return (
         <div className='flex flex-col justify-start items-center'>
-            <Heading 
-            title='Login'
-            bannerImage={loginBanner}/>
-            <LoginForm />
+            <Heading
+                title='Login'
+                bannerImage={loginBanner} />
+
+            <div className='w-11/12 md:w-[500px] mx-auto my-10'>
+                <LoginForm />
+            </div>
         </div>
     );
 };

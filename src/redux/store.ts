@@ -11,7 +11,7 @@ const persistedAuth = persistReducer({
 
 export const store = configureStore({
   reducer: {
-    authReducer: persistedAuth,
+    "authReducer": persistedAuth,
     [baseApi.reducerPath]: baseApi.reducer
   },
   middleware: (getDefaultMiddleware) =>

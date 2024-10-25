@@ -4,6 +4,14 @@ import { Link } from "react-router-dom";
 import { NavigationMenu, NavigationMenuList, NavigationMenuLink } from "@/components/ui/navigation-menu";
 import { FaBars, FaMountain } from "react-icons/fa";
 import Container from "../widget/Container";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import LoginForm from "../forms/auth/login-form";
+import { currentUser } from "@/redux/features/auth/auth.slice";
+import { useAppSelector } from "@/redux/hooks";
+import { RootState } from "@/redux/store";
+import { useDispatch } from "react-redux";
+import { LogOut, LogIn } from "lucide-react";
+import { logOutUser } from "@/redux/features/auth/auth.slice";
 
 
 interface INavigationMenuList {
@@ -24,6 +32,12 @@ const navigationMenuList: INavigationMenuList[] = [
 
 
 export default function Component() {
+  const user = useAppSelector((state: RootState) => currentUser(state));
+  const dispatch = useDispatch();
+
+
+  console.log(user);
+
   return (
     <header className="border-b border-b-slate-200">
       <Container>
@@ -86,7 +100,18 @@ export default function Component() {
               </NavigationMenu>
             </div>
 
-            <Button>Account</Button>
+            <div>
+              {!user ? <Popover>
+                <PopoverTrigger asChild>
+                  <Button variant="outline">Login <LogIn /></Button>
+                </PopoverTrigger>
+                <PopoverContent className="p-0 border-0">
+                  <LoginForm />
+                </PopoverContent>
+              </Popover> :
+                <Button onClick={() => dispatch(logOutUser())} variant="outline">Logout <LogOut /></Button>
+              }
+            </div>
           </div>
         </header>
       </Container>

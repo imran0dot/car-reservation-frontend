@@ -7,7 +7,12 @@ import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { useLoginMutation } from '@/redux/features/auth/auth.api'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useAppSelector } from '@/redux/hooks'
+import { RootState } from '@/redux/store'
+import { currentUser, setUser } from '@/redux/features/auth/auth.slice'
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 
 const formSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
@@ -18,7 +23,16 @@ type FormData = z.infer<typeof formSchema>
 
 export default function LoginForm() {
   const [loginHandler, { isLoading, isError }] = useLoginMutation();
+  const user = useAppSelector((state: RootState) => currentUser(state));
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    if(user){
+      navigate('/')
+    }
+
+  }, [user, navigate])
   const {
     register,
     handleSubmit,
@@ -29,9 +43,21 @@ export default function LoginForm() {
   })
 
   const onSubmit = async (data: FormData) => {
-    const loginReseponce = await loginHandler(data);
-    console.log(loginReseponce);
+    try {
+      const loginData = await loginHandler(data);
+      const userData = {
+        name: loginData?.data?.data?.user?.name,
+        email: loginData?.data?.data?.user?.email,
+        role: loginData?.data?.data?.user?.role
+      };
+
+      dispatch(setUser(userData));
+    }
+    catch (error) {
+      console.log(error);
+    }
   }
+
 
   return (
     <Card className="w-full">
@@ -67,13 +93,13 @@ export default function LoginForm() {
         </CardContent>
         <CardFooter>
           <div className='space-y-6 w-full'>
-          <Button
-            type="submit"
-            className="w-full"
-            disabled={!isValid || isLoading}
-          >
-            {isLoading ? 'Logging in...' : 'Log in'}
-          </Button>
+            <Button
+              type="submit"
+              className="w-full"
+              disabled={!isValid || isLoading}
+            >
+              {isLoading ? 'Logging in...' : 'Log in'}
+            </Button>
 
             <div>
               Don't you have account? please <Link to="/registration" className='text-blue-600'>Register!</Link>

@@ -9,7 +9,10 @@ const Registration: React.FC = () => {
             <Heading
                 title='Registration'
                 bannerImage={RegisterBanner} />
+
+            <div className='w-11/12 md:w-[500px] mx-auto my-10'>
                 <RegistrationForm />
+            </div>
         </div>
     );
 };
